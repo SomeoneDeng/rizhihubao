@@ -4,6 +4,7 @@ import 'package:rizhihubao/util/GetData.dart';
 import 'package:rizhihubao/util/bean/News.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:date_format/date_format.dart';
+import 'DetailPage.dart';
 
 class NewsListView extends StatefulWidget {
   News news;
@@ -42,6 +43,10 @@ class _NewsListViewState extends State<NewsListView> {
           onTap: () {
             print(
                 "this ${news.stories[index + 4].id} of <<${news.stories[index + 4].title}>>");
+            Navigator.push(
+              context,
+              new MaterialPageRoute(builder: (context) => StoryDetailPage(news.stories[index + 4].id.toString())),
+            );
           },
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
@@ -127,10 +132,14 @@ class NewsListViewItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print("id: ${story.id} of 《${story.title}》");
+        Navigator.push(
+          context,
+          new MaterialPageRoute(builder: (context) => StoryDetailPage(story.id.toString())),
+        );
       },
       child: story.dateType
           ? Container(
-        alignment: Alignment.center,
+              alignment: Alignment.center,
               child: Text(formatDate(
                   DateTime.parse(story.title), [yyyy, '年', mm, '月', dd, '日'])),
             )
@@ -148,7 +157,7 @@ class NewsListViewItem extends StatelessWidget {
                   Stack(
                     children: <Widget>[
                       Image.network(
-                          "https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif",
+                        "https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif",
                         height: 10,
                         width: 10,
                       ),

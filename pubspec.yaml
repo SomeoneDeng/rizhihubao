@@ -16,6 +16,7 @@ dependencies:
   dio: '^1.0.13'
   date_format: '^1.0.5'
   flutter_swiper: '^1.1.4'
+  flutter_webview_plugin: '^0.3.0+2'
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
