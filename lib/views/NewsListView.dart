@@ -148,7 +148,10 @@ class NewsListViewItem extends StatelessWidget {
                   Stack(
                     children: <Widget>[
                       Image.network(
-                          "	https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif"),
+                          "https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif",
+                        height: 10,
+                        width: 10,
+                      ),
                       Image.network(
                         story.images,
                         scale: 2,
