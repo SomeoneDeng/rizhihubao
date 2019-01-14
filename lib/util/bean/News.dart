@@ -12,13 +12,14 @@ class News {
 
 /// 新闻里的东西
 class Story {
+  bool dateType;
   String images;
   int type;
   int id;
   String gaPrefix;
   String title;
 
-  Story({this.gaPrefix, this.id, this.images, this.title, this.type});
+  Story({this.gaPrefix, this.id, this.images, this.title, this.type, this.dateType = false});
 
   @override
   String toString() {

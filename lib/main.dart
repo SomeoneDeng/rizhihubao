@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rizhihubao/util/GetData.dart';
 import 'package:rizhihubao/util/bean/News.dart';
 import 'package:rizhihubao/views/NewsListView.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:date_format/date_format.dart';
 
 void main() => runApp(MyApp());
@@ -22,7 +21,6 @@ class MyApp extends StatefulWidget {
 class AppState extends State<MyApp> {
   News news;
   String title;
-  Swiper mySwiper;
 
   int swipIndex;
 
@@ -32,57 +30,19 @@ class AppState extends State<MyApp> {
     getNews();
     title = "首页";
     swipIndex = 0;
-
-    mySwiper = Swiper(
-      itemBuilder: (BuildContext context, int index) {
-        return new Image.network(
-          news.stories[index + 5].images,
-          fit: BoxFit.fill,
-        );
-      },
-      itemCount: 5,
-      viewportFraction: 1.0,
-      scale: 1.0,
-      autoplay: true,
-      autoplayDelay: 3000,
-      itemHeight: 5000,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new Scaffold(
-//        appBar: AppBar(title: Text("新闻"),actions: <Widget>[],),
+        appBar: AppBar(
+          title: Text("News"),
+        ),
         body: news == null
             ? Text("Loading")
-            : NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      expandedHeight: 200.0,
-                      floating: false,
-                      pinned: false,
-                      flexibleSpace: Swiper(
-                        pagination: SwiperPagination(),
-                        autoplay: true,
-                        autoplayDelay: 3000,
-                        itemCount: 4,
-                        itemBuilder: (ctx, i) {
-                          return Image.network(
-                            news.stories[news.stories.length - 1 - i].images,
-                            fit: BoxFit.fill,
-                          );
-                        },
-                      ),
-                    ),
-                  ];
-                },
-                body: Center(
-                    child: NewsListView(
-                  news: news,
-                )),
+            : NewsListView(
+                news: news,
               ),
         drawer: Drawer(
             child: ListView(
@@ -93,7 +53,9 @@ class AppState extends State<MyApp> {
   }
 
   void getNews() {
-    GetData().getNewsBefore(formatDate(DateTime.now(), [yyyy,mm,dd])).then((n) {
+    GetData()
+        .getNewsBefore(formatDate(DateTime.now(), [yyyy, mm, dd]))
+        .then((n) {
       setState(() {
         news = n;
         print(news.date);

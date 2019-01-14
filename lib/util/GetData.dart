@@ -21,6 +21,7 @@ class GetData {
     });
   }
 
+  /// 获取某天之前的数据
   Future<News> getNewsBefore(String date) {
     Dio dio = new Dio();
     Future<Response> respFuture =
