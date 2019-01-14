@@ -3,6 +3,7 @@ import 'package:rizhihubao/util/GetData.dart';
 import 'package:rizhihubao/util/bean/News.dart';
 import 'package:rizhihubao/views/NewsListView.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:date_format/date_format.dart';
 
 void main() => runApp(MyApp());
 
@@ -64,13 +65,13 @@ class AppState extends State<MyApp> {
                       floating: false,
                       pinned: false,
                       flexibleSpace: Swiper(
-                        pagination: DotSwiperPaginationBuilder(),
+                        pagination: SwiperPagination(),
                         autoplay: true,
                         autoplayDelay: 3000,
                         itemCount: 4,
                         itemBuilder: (ctx, i) {
                           return Image.network(
-                            news.stories[i].images,
+                            news.stories[news.stories.length - 1 - i].images,
                             fit: BoxFit.fill,
                           );
                         },
@@ -92,10 +93,10 @@ class AppState extends State<MyApp> {
   }
 
   void getNews() {
-    print("getting news...");
-    GetData().getNews().then((n) {
+    GetData().getNewsBefore(formatDate(DateTime.now(), [yyyy,mm,dd])).then((n) {
       setState(() {
         news = n;
+        print(news.date);
       });
     });
   }
