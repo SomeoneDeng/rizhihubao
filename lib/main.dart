@@ -57,6 +57,7 @@ class AppState extends State<MyApp> {
         .getNewsBefore(formatDate(DateTime.now(), [yyyy, mm, dd]))
         .then((n) {
       setState(() {
+        n.stories.insert(0, Story(dateType: true, title: n.date));
         news = n;
         print(news.date);
       });

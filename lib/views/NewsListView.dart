@@ -41,7 +41,7 @@ class _NewsListViewState extends State<NewsListView> {
         return GestureDetector(
           onTap: () {
             print(
-                "this ${news.stories[index+4].id} of <<${news.stories[index+4].title}>>");
+                "this ${news.stories[index + 4].id} of <<${news.stories[index + 4].title}>>");
           },
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
@@ -106,7 +106,7 @@ class _NewsListViewState extends State<NewsListView> {
       var lastday = nowdate.add(Duration(days: -1));
       GetData().getNewsBefore(formatDate(lastday, [yyyy, mm, dd])).then((n) {
         setState(() {
-          news.stories.add(Story(dateType: true,title: n.date));
+          news.stories.add(Story(dateType: true, title: n.date));
           news.stories.addAll(n.stories);
           news.date = n.date;
           isPerformingRequest = false;
@@ -128,24 +128,36 @@ class NewsListViewItem extends StatelessWidget {
       onTap: () {
         print("id: ${story.id} of 《${story.title}》");
       },
-      child: Card(
-          child: Container(
-        padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                story.title,
-                style: TextStyle(fontSize: 20),
+      child: story.dateType
+          ? Container(
+        alignment: Alignment.center,
+              child: Text(formatDate(
+                  DateTime.parse(story.title), [yyyy, '年', mm, '月', dd, '日'])),
+            )
+          : Card(
+              child: Container(
+              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      story.title,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Stack(
+                    children: <Widget>[
+                      Image.network(
+                          "	https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif"),
+                      Image.network(
+                        story.images,
+                        scale: 2,
+                      )
+                    ],
+                  )
+                ],
               ),
-            ),
-            Stack(children: <Widget>[
-              Image.network("	https://someonedeng-1253259777.cos.ap-guangzhou.myqcloud.com/blog/image/loading.gif"),
-              Image.network(story.images, scale: 2,)
-            ],)
-          ],
-        ),
-      )),
+            )),
     );
   }
 }
