@@ -5,27 +5,27 @@ import 'package:rizhihubao/util/bean/News.dart';
 class NewsListView extends StatefulWidget {
   News news;
 
-  NewsListView(this.news);
+  NewsListView({this.news});
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _NewsListViewState(news);
+    return _NewsListViewState(news: news);
   }
 }
 
 class _NewsListViewState extends State<NewsListView> {
   News news;
 
-  _NewsListViewState(this.news);
+  _NewsListViewState({this.news});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return ListView(
-      children: List.from(news.stories.map((i) => NewsListViewItem(
-            story: i,
-          ))),
+    return GestureDetector(
+      child: ListView(
+        children: List.from(news.stories.map((i) => NewsListViewItem(
+              story: i,
+            ))),
+      ),
     );
   }
 }
@@ -42,8 +42,9 @@ class NewsListViewItem extends StatelessWidget {
       onTap: () {
         print("id: ${story.id}");
       },
-      child: Container(
-        padding: EdgeInsets.all(8),
+      child: Card(
+          child: Container(
+        padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -58,7 +59,7 @@ class NewsListViewItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }
