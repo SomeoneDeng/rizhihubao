@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:native_web_view/native_web_view.dart';
 import 'package:rizhihubao/util/GetData.dart';
 import 'package:rizhihubao/util/bean/News.dart';
 
@@ -33,54 +34,66 @@ class _StoryDetailState extends State<StoryDetailPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.share,color: Colors.white,), onPressed: () {},),
-          IconButton(icon: Icon(Icons.star,color: Colors.white,), onPressed: () {},),
-          IconButton(icon: Icon(Icons.message,color: Colors.white,), onPressed: () {},),
-          IconButton(icon: Icon(Icons.thumb_up,color: Colors.white,), onPressed: () {},),
-        ],
-      ),
-      body: storyDetail == null
-          ? Center(
-              child: Text("loading.."),
-            )
-          : ListView(
-              children: <Widget>[
-                Container(
-                  child: ListTile(
-                    title: Text(
-                      storyDetail.title,
-                      style: TextStyle(color: Colors.white, shadows: [
-                        Shadow(
-                            color: Colors.black45,
-                            offset: Offset(1, 1),
-                            blurRadius: 0)
-                      ]),
+//        appBar:
+        body: storyDetail == null
+            ? Center(
+                child: Card()
+              )
+            : Column(
+                children: <Widget>[
+                  Container(
+                    child: ListTile(
+                      title: Text(
+                        storyDetail.title,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            shadows: [
+                              Shadow(color: Colors.black45, blurRadius: 1)
+                            ]),
+                      ),
+                      subtitle: Text(
+                        storyDetail.imageSource,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(color: Colors.white70, shadows: [
+                          Shadow(color: Colors.black45, blurRadius: 1)
+                        ]),
+                      ),
                     ),
-                    subtitle: Text(
-                      storyDetail.imageSource,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: Colors.white30,
-                          shadows: [
-                            Shadow(
-                                color: Colors.black45,
-                                offset: Offset(1, 1),
-                                blurRadius: 0)
-                          ],
-                          fontSize: 10),
-                    ),
+                    decoration: BoxDecoration(
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(storyDetail.image))),
+                    height: 200,
+                    alignment: Alignment.bottomCenter,
                   ),
-                  height: 160,
-                  alignment: Alignment.bottomCenter,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: NetworkImage(storyDetail.image))),
-                ),
-              ],
-            ),
-    );
+                  Expanded(
+                    child: Container(
+                      height: 5000,
+                      child: WebView(
+                        initialUrl: """<html>
+                          <head>
+                          <title>${storyDetail.title}</title>
+                          </head>
+
+                          <body>
+                            ${storyDetail.body}
+                          </body>
+
+                          </html>
+                         """,
+                        javascriptMode: JavascriptMode.unrestricted,
+                        onWebViewCreated:
+                            (WebViewController webViewController) {
+                          ((WebViewController e) {
+                            print("loading html.....");
+//                      e.loadHtmlString();
+                          })(webViewController);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ));
   }
 }

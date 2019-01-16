@@ -45,7 +45,9 @@ class _NewsListViewState extends State<NewsListView> {
                 "this ${news.stories[index + 4].id} of <<${news.stories[index + 4].title}>>");
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => StoryDetailPage(news.stories[index + 4].id.toString())),
+              new MaterialPageRoute(
+                  builder: (context) =>
+                      StoryDetailPage(news.stories[index + 4].id.toString())),
             );
           },
           child: Container(
@@ -129,22 +131,23 @@ class NewsListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print("id: ${story.id} of 《${story.title}》");
-        Navigator.push(
-          context,
-          new MaterialPageRoute(builder: (context) => StoryDetailPage(story.id.toString())),
-        );
-      },
-      child: story.dateType
-          ? Container(
-              alignment: Alignment.center,
-              child: Text(formatDate(
-                  DateTime.parse(story.title), [yyyy, '年', mm, '月', dd, '日'])),
-            )
-          : Card(
-              child: Container(
+    return story.dateType
+        ? Container(
+            alignment: Alignment.center,
+            child: Text(formatDate(
+                DateTime.parse(story.title), [yyyy, '年', mm, '月', dd, '日'])),
+          )
+        : GestureDetector(
+            onTap: () {
+              print("this ${story.id} of <<${story.title}>>");
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => StoryDetailPage(story.id.toString())),
+              );
+            },
+            child: Card(
+                child: Container(
               padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
               child: Row(
                 children: <Widget>[
@@ -170,6 +173,6 @@ class NewsListViewItem extends StatelessWidget {
                 ],
               ),
             )),
-    );
+          );
   }
 }
