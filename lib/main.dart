@@ -37,7 +37,7 @@ class AppState extends State<MyApp> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-          title: Text("News"),
+          title: Text("日知乎报"),
         ),
         body: news == null
             ? Text("Loading")
@@ -46,7 +46,31 @@ class AppState extends State<MyApp> {
               ),
         drawer: Drawer(
             child: ListView(
-          children: <Widget>[Text("Drawer")],
+          children: <Widget>[
+            Container(
+              child: ListTile(
+                title: Text("这是个Demo"),
+                subtitle: Text(
+                  "someone",
+                  textAlign: TextAlign.right,
+                ),
+              ),
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                  image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage("access/img/drawer_head.jpg"))),
+              height: 200,
+            ),
+            ListTile(
+              title: Text("iamdqncoder@gmail.com"),
+              leading: Icon(Icons.mail),
+            ),
+            ListTile(
+              title: Text("https://www.moha.moe"),
+              leading: Icon(Icons.web),
+            )
+          ],
         )),
       ),
     );
