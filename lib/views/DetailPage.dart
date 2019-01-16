@@ -39,8 +39,34 @@ class _StoryDetailState extends State<StoryDetailPage> {
             ? Center(
                 child: Card()
               )
-            : Column(
+            : Stack(
                 children: <Widget>[
+
+                  Container(
+//                      height: 5000,
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: WebView(
+                        initialUrl: """<html>
+                          <head>
+                          <title>${storyDetail.title}</title>
+                          <link rel="stylesheet" type="text/css" href="${storyDetail.css[0]}">
+                          </head>
+                          <body>
+                            ${storyDetail.body}
+                          </body>
+                          <script src="${storyDetail.js[0]}"></script>
+                          </html>
+                         """,
+                        javascriptMode: JavascriptMode.unrestricted,
+                        onWebViewCreated:
+                            (WebViewController webViewController) {
+                          ((WebViewController e) {
+                            print("loading html.....");
+//                      e.loadHtmlString();
+                          })(webViewController);
+                        },
+                      ),
+                    ),
                   Container(
                     child: ListTile(
                       title: Text(
@@ -67,32 +93,6 @@ class _StoryDetailState extends State<StoryDetailPage> {
                     height: 200,
                     alignment: Alignment.bottomCenter,
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 5000,
-                      child: WebView(
-                        initialUrl: """<html>
-                          <head>
-                          <title>${storyDetail.title}</title>
-                          </head>
-
-                          <body>
-                            ${storyDetail.body}
-                          </body>
-
-                          </html>
-                         """,
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated:
-                            (WebViewController webViewController) {
-                          ((WebViewController e) {
-                            print("loading html.....");
-//                      e.loadHtmlString();
-                          })(webViewController);
-                        },
-                      ),
-                    ),
-                  )
                 ],
               ));
   }
